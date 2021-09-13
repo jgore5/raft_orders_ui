@@ -83,12 +83,23 @@ export const AddOrder: React.FC<Props> = () => {
                 Upload
             </Button>
 
-            {uploadOrderMessage && uploadedFiles &&
+            {uploadOrderMessage && uploadedFiles && uploadedFiles?.orderIds.length > 0 &&
             <Typography variant="subtitle2">
                 {`Order Id(s) ${uploadedFiles.orderIds} Were/Was Successfully Added!`}
             </Typography>
             }
 
+            {uploadOrderMessage && uploadedFiles && uploadedFiles?.orderIds.length > 0 &&
+            <Typography variant="subtitle2">
+                {`If ids are missing from order that means the order id already exists`}
+            </Typography>
+            }
+
+            {uploadOrderMessage && uploadedFiles?.orderIds.length === 0 &&
+            <Typography variant="subtitle2">
+                {`All Order Ids in file were duplicates`}
+            </Typography>
+            }
         </div>
     );
 }
