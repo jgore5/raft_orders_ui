@@ -9,10 +9,16 @@ interface Props {
 export const AddOrder: React.FC<Props> = () => {
     const [selectedFiles, setSelectedFiles] = useState<FileList | null>()
     const [uploadOrderMessage, setUploadOrderMessage] = useState(false)
+    const [uploadedFiles, setUploadedFiles] = useState<OrderList>()
 
 
     const onChangeUpdateFile = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newSelectedFiles = event.target.files;
+        setUploadedFiles(
+            {
+                orderIds: []
+            }
+        )
         setSelectedFiles(newSelectedFiles)
     }
 
@@ -35,6 +41,11 @@ export const AddOrder: React.FC<Props> = () => {
                 response => {
                     if (response.status === 200) {
                         setUploadOrderMessage(true)
+                        setUploadedFiles(
+                            {
+                                orderIds: response.data.orderIds
+                            }
+                        )
                     }
                 }
             ).catch(error => {
@@ -72,9 +83,9 @@ export const AddOrder: React.FC<Props> = () => {
                 Upload
             </Button>
 
-            {uploadOrderMessage &&
+            {uploadOrderMessage && uploadedFiles &&
             <Typography variant="subtitle2">
-                Uploaded Files Successfully
+                {`Order Id(s) ${uploadedFiles.orderIds} Were/Was Successfully Added!`}
             </Typography>
             }
 

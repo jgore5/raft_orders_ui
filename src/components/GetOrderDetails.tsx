@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
-import {Button, TextField} from '@material-ui/core';
+import {Button, TextField, Typography} from '@material-ui/core';
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
@@ -27,6 +27,8 @@ const useStyles = makeStyles((theme) => ({
 export const GetOrderDetails: React.FC<Props> = () => {
     const [currentOrder, setCurrentOrder] = useState<Order>();
     const [searchOrderId, setSearchOrderId] = useState("");
+    const [failureGetOrderMessage, setFailureGetOrderMessage] = useState(false)
+
 
     const onChangeSearchOrderId = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         const newSearchOrderId = e.target.value;
@@ -37,14 +39,19 @@ export const GetOrderDetails: React.FC<Props> = () => {
         const url = `http://localhost:8080/api/v1/order/get-order/${searchOrderId}`
 
         axios.get(url).then(
-            response =>
+            response => {
                 setCurrentOrder(
-                {
-                    productName: response.data.productName,
-                    productQuantity: response.data.productQuantity,
-                    id: response.data.orderId
-                })
-        )
+                    {
+                        productName: response.data.productName,
+                        productQuantity: response.data.productQuantity,
+                        id: response.data.id,
+                        orderId: response.data.orderId
+                    })
+            }
+        ).catch(error => {
+            console.log(error)
+            setFailureGetOrderMessage(true)
+        })
     }
 
     const classes = useStyles();
@@ -93,7 +100,7 @@ export const GetOrderDetails: React.FC<Props> = () => {
                                 </Avatar>
                             </ListItemAvatar>
                             <ListItemText primary="Order Id" secondary={
-                                currentOrder.id
+                                currentOrder.orderId
                             }/>
                         </ListItem>
                     </List>
@@ -101,6 +108,12 @@ export const GetOrderDetails: React.FC<Props> = () => {
                     <></>
                 }
             </div>
+
+            {failureGetOrderMessage &&
+            <Typography variant="subtitle2">
+                {`Order ${searchOrderId} Does Not Exist`}
+            </Typography>
+            }
         </>
     );
 }

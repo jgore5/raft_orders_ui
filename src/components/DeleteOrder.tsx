@@ -10,6 +10,8 @@ interface Props {
 export const DeleteOrder: React.FC<Props> = () => {
     const [deleteOrderId, setDeleteOrderId] = useState("");
     const [deleteOrderMessage, setDeleteOrderMessage] = useState(false)
+    const [failureDeleteOrderMessage, setFailureDeleteOrderMessage] = useState(false)
+
 
     const onChangeUpdateDeleteOrderId = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         const newDeleteOrderId = e.target.value;
@@ -25,7 +27,10 @@ export const DeleteOrder: React.FC<Props> = () => {
                     setDeleteOrderMessage(true)
                 }
             }
-        )
+        ).catch(error => {
+            console.log(error)
+            setFailureDeleteOrderMessage(true)
+        })
     }
 
     return (
@@ -46,7 +51,13 @@ export const DeleteOrder: React.FC<Props> = () => {
 
             {deleteOrderMessage &&
             <Typography variant="subtitle2">
-                Order Was Successfully Deleted
+                {`Order ${deleteOrderId} Was Successfully Deleted`}
+            </Typography>
+            }
+
+            {failureDeleteOrderMessage &&
+            <Typography variant="subtitle2">
+                {`Order ${deleteOrderId} Does Not Exist`}
             </Typography>
             }
         </>
