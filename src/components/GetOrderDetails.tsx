@@ -5,10 +5,10 @@ import {Button, TextField, Typography} from '@material-ui/core';
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
-import ImageIcon from "@material-ui/icons/Image";
+import LocalGroceryStoreIcon from '@material-ui/icons/LocalGroceryStore';
 import ListItemText from "@material-ui/core/ListItemText";
-import WorkIcon from "@material-ui/icons/Work";
-import BeachAccessIcon from "@material-ui/icons/BeachAccess";
+import ListIcon from '@material-ui/icons/List';
+import PersonIcon from '@material-ui/icons/Person';
 import List from "@material-ui/core/List";
 import axios from "axios";
 
@@ -21,6 +21,10 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
         maxWidth: 360,
         backgroundColor: theme.palette.background.paper,
+    },
+    addButton: {
+        marginTop: '10px',
+        marginLeft: "10px",
     },
 }));
 
@@ -66,7 +70,9 @@ export const GetOrderDetails: React.FC<Props> = () => {
                 />
                 <Button
                     variant="contained"
+                    className={classes.addButton}
                     startIcon={<AddIcon/>}
+                    color={"primary"}
                     onClick={() => searchOnClick()}
                 />
             </div>
@@ -76,7 +82,7 @@ export const GetOrderDetails: React.FC<Props> = () => {
                         <ListItem>
                             <ListItemAvatar>
                                 <Avatar>
-                                    <ImageIcon/>
+                                    <LocalGroceryStoreIcon/>
                                 </Avatar>
                             </ListItemAvatar>
                             <ListItemText primary="Product Name" secondary={
@@ -86,7 +92,7 @@ export const GetOrderDetails: React.FC<Props> = () => {
                         <ListItem>
                             <ListItemAvatar>
                                 <Avatar>
-                                    <WorkIcon/>
+                                    <ListIcon/>
                                 </Avatar>
                             </ListItemAvatar>
                             <ListItemText primary="Product Quantity" secondary={
@@ -96,7 +102,7 @@ export const GetOrderDetails: React.FC<Props> = () => {
                         <ListItem>
                             <ListItemAvatar>
                                 <Avatar>
-                                    <BeachAccessIcon/>
+                                    <PersonIcon/>
                                 </Avatar>
                             </ListItemAvatar>
                             <ListItemText primary="Order Id" secondary={

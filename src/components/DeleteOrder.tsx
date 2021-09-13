@@ -2,16 +2,21 @@ import React, {useState} from 'react';
 import {Button, TextField, Typography} from "@material-ui/core";
 import RemoveIcon from "@material-ui/icons/Remove";
 import axios from 'axios';
+import {makeStyles} from "@material-ui/core/styles";
 
-interface Props {
-    order: Order;
-}
+const useStyles = makeStyles(() => ({
+    deleteButton: {
+        marginTop: '10px',
+        marginLeft: "10px",
+    },
+}));
 
-export const DeleteOrder: React.FC<Props> = () => {
+export const DeleteOrder: React.FC = () => {
     const [deleteOrderId, setDeleteOrderId] = useState("");
     const [deleteOrderMessage, setDeleteOrderMessage] = useState(false)
     const [failureDeleteOrderMessage, setFailureDeleteOrderMessage] = useState(false)
 
+    const classes = useStyles();
 
     const onChangeUpdateDeleteOrderId = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         const newDeleteOrderId = e.target.value;
@@ -45,6 +50,8 @@ export const DeleteOrder: React.FC<Props> = () => {
                 <Button
                     variant="contained"
                     startIcon={<RemoveIcon/>}
+                    className={classes.deleteButton}
+                    color={"primary"}
                     onClick={() => deleteOnClick()}
                 />
             </div>
